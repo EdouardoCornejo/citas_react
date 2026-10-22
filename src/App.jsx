@@ -31,7 +31,12 @@ function App() {
   const [paciente, setPaciente] = useState({})
 
   useEffect(() => {
-    localStorage.setItem('pacientes', JSON.stringify( pacientes ));
+    // En iframes de terceros algunos navegadores bloquean localStorage
+    try {
+      localStorage.setItem('pacientes', JSON.stringify( pacientes ));
+    } catch {
+      // Sin almacenamiento la app sigue funcionando en memoria
+    }
   }, [pacientes])
 
 

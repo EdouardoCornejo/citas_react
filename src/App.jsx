@@ -8,28 +8,38 @@ import Formulario from "./components/Formulario"
 import ListadoPacientes from "./components/ListadoPacientes"
 
 
+const CAMPOS = ['id', 'nombre', 'propietario', 'email', 'fecha', 'sintomas']
+
+// Lee los pacientes de localStorage descartando datos corruptos o manipulados
+const obtenerLS = () => {
+  try {
+    const pacientesLS = JSON.parse(localStorage.getItem('pacientes'))
+    if (!Array.isArray(pacientesLS)) return []
+    return pacientesLS.filter(p =>
+      p && typeof p === 'object' && CAMPOS.every(campo => typeof p[campo] === 'string')
+    )
+  } catch {
+    return []
+  }
+}
+
 function App() {
 
-  const [pacientes, setPacientes] = useState([])
+  // Inicializacion diferida: se lee localStorage antes del primer render,
+  // asi el efecto de guardado nunca sobrescribe los datos con un arreglo vacio
+  const [pacientes, setPacientes] = useState(obtenerLS)
   const [paciente, setPaciente] = useState({})
-
-  useEffect(() => {
-    const obtenerLS = () => {
-      const pacientesLS = JSON.parse(localStorage.getItem('pacientes')) ?? [];
-      setPacientes(pacientesLS)
-    }
-    obtenerLS();
-  }, []);
 
   useEffect(() => {
     localStorage.setItem('pacientes', JSON.stringify( pacientes ));
   }, [pacientes])
 
-  
-  //Funcion para eliminarpaciente 
+
+  //Funcion para eliminarpaciente
   const eliminarPaciente = id => {
     const pacientesActualizados = pacientes.filter( paciente => paciente.id !== id)
     setPacientes(pacientesActualizados)
+    if (paciente.id === id) setPaciente({})
   }
 
   return (  

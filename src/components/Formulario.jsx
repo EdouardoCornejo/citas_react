@@ -27,7 +27,7 @@ const Formulario = ({pacientes, setPacientes, paciente, setPaciente}) => {      
 
 
   const generarId = () => {
-    const random = Math.random().toString(36).substr(2)
+    const random = Math.random().toString(36).slice(2)
     const fecha = Date.now().toString(36)
       return random + fecha
   }
@@ -36,7 +36,7 @@ const Formulario = ({pacientes, setPacientes, paciente, setPaciente}) => {      
     e.preventDefault()
     
     //Validacion del Formulario
-    if([ nombre, propietario, email, fecha, sintomas].includes('')){
+    if([ nombre, propietario, email, fecha, sintomas].some(campo => campo.trim() === '')){
       //Hay Campos vacios
 
       setError(true)
@@ -101,7 +101,7 @@ const Formulario = ({pacientes, setPacientes, paciente, setPaciente}) => {      
               id="mascota"
               type="text"
               placeholder="Nombre de la Mascota"
-              className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
+              className="border-2 w-full p-2 mt-2 placeholder:text-gray-400 rounded-md"
               value={nombre}
               onChange={ (e) => setNombre(e.target.value)}
             />
@@ -116,7 +116,7 @@ const Formulario = ({pacientes, setPacientes, paciente, setPaciente}) => {      
               id="propietario"
               type="text"
               placeholder="Nombre del propietario"
-              className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
+              className="border-2 w-full p-2 mt-2 placeholder:text-gray-400 rounded-md"
               value={propietario}
               onChange={ (e) => setPropietario(e.target.value)}
             />
@@ -131,21 +131,21 @@ const Formulario = ({pacientes, setPacientes, paciente, setPaciente}) => {      
               id="email"
               type="email"
               placeholder="Email Contacto Propietario"
-              className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
+              className="border-2 w-full p-2 mt-2 placeholder:text-gray-400 rounded-md"
               value={email}
               onChange={ (e) => setEmail(e.target.value)}
             />
           </div>
 
           <div className="mb-5">
-            <label htmlFor="email" className="block text-gray-700 uppercase font-bold ">
+            <label htmlFor="alta" className="block text-gray-700 uppercase font-bold ">
               Alta
             </label>
               
             <input 
               id="alta"
               type="date"
-              className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
+              className="border-2 w-full p-2 mt-2 placeholder:text-gray-400 rounded-md"
               value={fecha}
               onChange={ (e) => setFecha(e.target.value)}
             />
@@ -157,7 +157,7 @@ const Formulario = ({pacientes, setPacientes, paciente, setPaciente}) => {      
             </label>
             <textarea 
                 id="sintomas"
-                className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
+                className="border-2 w-full p-2 mt-2 placeholder:text-gray-400 rounded-md"
                 placeholder="Describe los Síntomas"
                 value={sintomas}
                 onChange={(e) => setSintomas(e.target.value)}
